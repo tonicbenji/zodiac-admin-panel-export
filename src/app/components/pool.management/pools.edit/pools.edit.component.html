@@ -1,0 +1,274 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Pool</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Pool</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="poolForm" [formGroup]="poolForm">
+                <mat-tab-group>
+                    <mat-tab label="Details">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4 m-b-2">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled" color="primary">Enabled</mat-slide-toggle>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-slide-toggle formControlName="featured" [(ngModel)]="record.featured" color="primary">Featured</mat-slide-toggle>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="" (keyup)="nameChange()">
+                                            <mat-error *ngIf="poolForm.get('name').hasError('server_validation')">{{ poolForm.get('name').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Slug</mat-label>
+                                            <input matInput formControlName="slug" [(ngModel)]="record.slug" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('slug').hasError('server_validation')">{{ poolForm.get('slug').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Pool Style</mat-label>
+                                            <mat-select required placeholder="Pool Style" formControlName="pool_style_id" [(ngModel)]="record.pool_style_id">
+                                                <mat-option *ngFor="let style of pool_styles" [value]="style.id">
+                                                    {{ style.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="poolForm.get('pool_style_id').hasError('server_validation')">{{ poolForm.get('pool_style_id').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Zone</mat-label>
+                                            <mat-select placeholder="Zone" formControlName="zone" [(ngModel)]="record.zone">
+                                                <mat-option *ngFor="let item of zones" [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="poolForm.get('zone').hasError('server_validation')">{{ poolForm.get('zone').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <span class="text-muted font-italic" style="display:block;">Hint: If applicable to all zones, leave empty</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <editor formControlName="description" [(ngModel)]="record.description" [init]="tinyMceSettings"></editor>
+                                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Description</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <textarea formControlName="blurb" rows="5" cols="30" [(ngModel)]="record.blurb" placeholder="Blurb" class="textarea"></textarea>
+                                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Blurb</label></span>
+                                        <mat-error *ngIf="poolForm.get('blurb').hasError('server_validation')">{{ poolForm.get('blurb').getError('server_validation') }}</mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Location</mat-label>
+                                            <input matInput formControlName="location" [(ngModel)]="record.location" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('location').hasError('server_validation')">{{ poolForm.get('location').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Construction</mat-label>
+                                            <input matInput formControlName="construction" [(ngModel)]="record.construction" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('construction').hasError('server_validation')">{{ poolForm.get('construction').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Length</mat-label>
+                                            <input matInput formControlName="length" [(ngModel)]="record.length" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('length').hasError('server_validation')">{{ poolForm.get('length').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Width</mat-label>
+                                            <input matInput formControlName="width" [(ngModel)]="record.width" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('width').hasError('server_validation')">{{ poolForm.get('width').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Min Depth</mat-label>
+                                            <input matInput formControlName="min_depth" [(ngModel)]="record.min_depth" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('min_depth').hasError('server_validation')">{{ poolForm.get('min_depth').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Max Depth</mat-label>
+                                            <input matInput formControlName="max_depth" [(ngModel)]="record.max_depth" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('max_depth').hasError('server_validation')">{{ poolForm.get('max_depth').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Dealer ID</mat-label>
+                                             <input matInput formControlName="builder_id" [(ngModel)]="record.builder_id" placeholder="">
+                                            <mat-error *ngIf="poolForm.get('builder_id').hasError('server_validation')">{{ poolForm.get('builder_id').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <span class="text-muted font-italic" style="display:block;">(In the menu on the left, open the Dealers section in a new tab. Then find the dealer you want and copy its ID from the table.)</span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Order</mat-label>
+                                            <mat-select placeholder="Order" formControlName="order" [(ngModel)]="record.order">
+                                                <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                                    {{ num }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="poolForm.get('order').hasError('server_validation')">{{ poolForm.get('order').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-label>Related Products</mat-label>
+                                    <autocomplete [lookup_endpoint]="products_lookup_endpoint" 
+                                        [selected_ids]="record.related_products"></autocomplete>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Meta">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Title</mat-label>
+                                            <input matInput formControlName="meta_title" [(ngModel)]="record.meta_title" placeholder="Meta Title">
+                                            <mat-error *ngIf="poolForm.get('meta_title').hasError('server_validation')">{{ poolForm.get('meta_title').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Description</mat-label>
+                                            <input matInput formControlName="meta_description" [(ngModel)]="record.meta_description" placeholder="Meta Description">
+                                            <mat-error *ngIf="poolForm.get('meta_description').hasError('server_validation')">{{ poolForm.get('meta_description').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Image</mat-label>
+                                            <input id="meta_image" matInput formControlName="meta_image" [(ngModel)]="record.meta_image">
+                                            <mat-error *ngIf="poolForm.get('meta_image').hasError('server_validation')">{{ poolForm.get('meta_image').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.meta_image" 
+                                                [src]="record.meta_image" 
+                                                data-urlfield="meta_image"/>
+                                            <!-- <span *ngIf="!record.meta_image" -->
+                                            <!--     data&#45;urlfield="meta_image">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Assets">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Main Image Url</mat-label>
+                                            <input id="main_image_url" matInput formControlName="main_image_url" [(ngModel)]="record.main_image_url">
+                                            <mat-error *ngIf="poolForm.get('main_image_url').hasError('server_validation')">{{ poolForm.get('main_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.main_image_url" 
+                                                [src]="record.main_image_url" 
+                                                data-urlfield="main_image_url"/>
+                                            <!-- <span *ngIf="!record.main_image_url" -->
+                                            <!--     data&#45;urlfield="main_image_url">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>List Image Url</mat-label>
+                                            <input id="list_image_url" matInput formControlName="list_image_url" [(ngModel)]="record.list_image_url">
+                                            <mat-error *ngIf="poolForm.get('list_image_url').hasError('server_validation')">{{ poolForm.get('list_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.list_image_url" 
+                                                [src]="record.list_image_url" 
+                                                data-urlfield="list_image_url"/>
+                                            <!-- <span *ngIf="!record.list_image_url" -->
+                                            <!--     data&#45;urlfield="list_image_url">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div *ngIf="record.id > 0" class="col-xs-12 col-md-12">
+                                <app-pool-media [parent_id]="record.id"></app-pool-media>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    
+                </mat-tab-group>
+            </form>
+            
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+        </div>
+    </article>
+</section>

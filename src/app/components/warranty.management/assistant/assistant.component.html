@@ -1,0 +1,67 @@
+<div [ngClass]="{hidden: mode != 'list'}">
+<div class="page-header">
+    <h1>
+        <i class="fa fa-dashboard page-header-icon"></i>Assistant Commands
+    </h1>
+</div>
+<section class="container-fluid with-maxwidth chapter">
+    <article class="article">
+        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+            <div class="col-xs-12">
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(1)" style="margin:10px">
+                composer install
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(2)" style="margin:10px">
+                composer update
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(3)" style="margin:10px">
+                composer dump-autoload  
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(4)" style="margin:10px">
+                npm install    
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(5)" style="margin:10px">
+                npm update    
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(6)" style="margin:10px">
+                php artisan migrate
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(7)" style="margin:10px">
+                php artisan optimize
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(8)" style="margin:10px">
+                php artisan cache:clear
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(9)" style="margin:10px">
+                php artisan route:cache
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(10)" style="margin:10px">
+                php artisan view:clear
+                </button>
+
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(11)" style="margin:10px">
+                php artisan config:cache
+                </button>
+
+                <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(12)" style="margin:10px">
+                php artisan config:clear
+                </button>                
+
+                <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="runCommand(13)" style="margin:10px">
+                searchindex:update
+                </button>                
+
+            </div>
+        </div>
+    </article>
+</section>
+</div>

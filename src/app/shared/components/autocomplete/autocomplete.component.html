@@ -1,0 +1,20 @@
+
+<mat-form-field>
+    <input #lookup_text_field matInput placeholder="Type to select" [(ngModel)]="lookup_text" (keyup)="filterLookups($event)" autocomplete="off">
+</mat-form-field>
+<p class="text-light font-italic" *ngIf="restrict">Hint: Only {{restrict}} selection is allowed</p>
+
+<ul #lookup_list *ngIf="filteredLookups.length > 0" (mouseenter)="enterList()" (mouseleave)="leaveList()" class="lookup_list">
+    <li *ngFor="let item of filteredLookups; let i = index" (click)="selectItem(item)" [ngClass]="{'focused': i == focus_item}" (mouseenter)="enterItem(i)">
+        {{ item.name }}
+    </li>
+</ul>
+
+<ul class="selected">
+    <li *ngFor="let item of selected_items">
+        {{ item.name.substring(0,20) }}
+        <a (click)="removeItem(item)">
+            <span class="remove">x</span>
+        </a>
+    </li>
+</ul>

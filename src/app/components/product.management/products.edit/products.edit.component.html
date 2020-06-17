@@ -1,0 +1,375 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Product</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Product</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="productForm" [formGroup]="productForm">
+                <mat-tab-group>
+                    <mat-tab label="Details">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4 m-b-2">
+                                <div class="col-xs-12 col-md-3">
+                                    <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled"
+                                        color="primary">Enabled</mat-slide-toggle>
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <mat-slide-toggle formControlName="featured" [(ngModel)]="record.featured"
+                                        color="primary">Featured</mat-slide-toggle>
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <mat-slide-toggle formControlName="discontinued" [(ngModel)]="record.discontinued"
+                                        color="primary">Discontinued</mat-slide-toggle>
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <mat-slide-toggle formControlName="warranty_able" [(ngModel)]="record.warranty_able"
+                                        color="primary">Warranty enabled</mat-slide-toggle>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput formControlName="name" [(ngModel)]="record.name"
+                                                placeholder="" (keyup)="nameChange()">
+                                            <mat-error *ngIf="productForm.get('name').hasError('server_validation')">
+                                                {{ productForm.get('name').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Slug</mat-label>
+                                            <input matInput formControlName="slug" [(ngModel)]="record.slug"
+                                                placeholder="">
+                                            <mat-error *ngIf="productForm.get('slug').hasError('server_validation')">
+                                                {{ productForm.get('slug').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Short Name</mat-label>
+                                            <input matInput formControlName="short_name" [(ngModel)]="record.short_name"
+                                                placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('short_name').hasError('server_validation')">
+                                                {{ productForm.get('short_name').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Category</mat-label>
+                                            <mat-select required placeholder="Category" formControlName="category_id"
+                                                [(ngModel)]="record.category_id">
+                                                <mat-option *ngFor="let category of categories" [value]="category.id">
+                                                    {{ category.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error
+                                                *ngIf="productForm.get('category_id').hasError('server_validation')">
+                                                {{ productForm.get('category_id').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Tag Line</mat-label>
+                                            <input matInput formControlName="tag_line" [(ngModel)]="record.tag_line"
+                                                placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('tag_line').hasError('server_validation')">
+                                                {{ productForm.get('tag_line').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <textarea formControlName="points" rows="5" cols="30"
+                                            [(ngModel)]="record.points" placeholder="Points"></textarea>
+                                        <span class="mat-form-field-label-wrapper"><label
+                                                class="mat-form-field-label">Points</label></span>
+                                        <p class="text-light font-italic">Hint: One point per line</p>
+                                        <mat-error *ngIf="productForm.get('points').hasError('server_validation')">
+                                            {{ productForm.get('points').getError('server_validation') }}</mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <editor formControlName="description" [(ngModel)]="record.description"
+                                            [init]="tinyMceSettings"></editor>
+                                        <span class="mat-form-field-label-wrapper"><label
+                                                class="mat-form-field-label">Description</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <textarea formControlName="blurb" rows="5" cols="30" [(ngModel)]="record.blurb"
+                                            placeholder="Blurb" class="textarea"></textarea>
+                                        <span class="mat-form-field-label-wrapper"><label
+                                                class="mat-form-field-label">Blurb</label></span>
+                                        <mat-error *ngIf="productForm.get('blurb').hasError('server_validation')">
+                                            {{ productForm.get('blurb').getError('server_validation') }}</mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Zone</mat-label>
+                                            <mat-select placeholder="Zone" formControlName="zone" [(ngModel)]="record.zone">
+                                                <mat-option *ngFor="let item of zones" [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="productForm.get('zone').hasError('server_validation')">{{ productForm.get('zone').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <span class="text-muted font-italic" style="display:block;">Hint: If applicable to all zones, leave empty</span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Order</mat-label>
+                                            <mat-select required placeholder="Order" formControlName="order"
+                                                [(ngModel)]="record.order">
+                                                <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                                    {{ num }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="productForm.get('order').hasError('server_validation')">
+                                                {{ productForm.get('order').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-label>Related Products</mat-label>
+                                    <autocomplete [lookup_endpoint]="products_lookup_endpoint" 
+                                        [selected_ids]="record.related_products"></autocomplete>
+                                </div>
+                                 <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Salesforce ID</mat-label>
+                                            <input matInput formControlName="salesforce_id" [(ngModel)]="record.salesforce_id"
+                                                placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('salesforce_id').hasError('server_validation')">
+                                                {{ productForm.get('salesforce_id').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Meta">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Title</mat-label>
+                                            <input matInput formControlName="meta_title" [(ngModel)]="record.meta_title"
+                                                placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('meta_title').hasError('server_validation')">
+                                                {{ productForm.get('meta_title').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Description</mat-label>
+                                            <input matInput formControlName="meta_description"
+                                                [(ngModel)]="record.meta_description" placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('meta_description').hasError('server_validation')">
+                                                {{ productForm.get('meta_description').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Image</mat-label>
+                                            <input id="meta_image" matInput formControlName="meta_image"
+                                                [(ngModel)]="record.meta_image">
+                                            <mat-error
+                                                *ngIf="productForm.get('meta_image').hasError('server_validation')">
+                                                {{ productForm.get('meta_image').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.meta_image" [src]="record.meta_image"
+                                                data-urlfield="meta_image"/>
+                                            <!-- <span *ngIf="!record.meta_image" data&#45;urlfield="meta_image">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12">&nbsp;</div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Assistance Meta Title</mat-label>
+                                            <input matInput formControlName="assist_meta_title" [(ngModel)]="record.assist_meta_title"
+                                                placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('assist_meta_title').hasError('server_validation')">
+                                                {{ productForm.get('assist_meta_title').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Assistance Meta Description</mat-label>
+                                            <input matInput formControlName="assist_meta_description"
+                                                [(ngModel)]="record.assist_meta_description" placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('assist_meta_description').hasError('server_validation')">
+                                                {{ productForm.get('assist_meta_description').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Assistance Meta Image</mat-label>
+                                            <input id="assist_meta_image" matInput formControlName="assist_meta_image"
+                                                [(ngModel)]="record.assist_meta_image">
+                                            <mat-error
+                                                *ngIf="productForm.get('assist_meta_image').hasError('server_validation')">
+                                                {{ productForm.get('assist_meta_image').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.assist_meta_image" [src]="record.assist_meta_image"
+                                                data-urlfield="assist_meta_image"/>
+                                            <!-- <span *ngIf="!record.assist_meta_image" data&#45;urlfield="assist_meta_image">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Assets">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>List Image Url</mat-label>
+                                            <input id="list_image_url" matInput formControlName="list_image_url"
+                                                [(ngModel)]="record.list_image_url">
+                                            <mat-error
+                                                *ngIf="productForm.get('list_image_url').hasError('server_validation')">
+                                                {{ productForm.get('list_image_url').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.list_image_url" [src]="record.list_image_url"
+                                                data-urlfield="list_image_url"/>
+                                            <!-- <span *ngIf="!record.list_image_url" data&#45;urlfield="list_image_url">Choose -->
+                                            <!--     an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Main Video Image Url</mat-label>
+                                            <input id="main_video_url" matInput formControlName="main_video_url"
+                                                [(ngModel)]="record.main_video_url">
+                                            <mat-error
+                                                *ngIf="productForm.get('main_video_url').hasError('server_validation')">
+                                                {{ productForm.get('main_video_url').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.main_video_url" [src]="record.main_video_url"
+                                                data-urlfield="main_video_url"/>
+                                            <!-- <span *ngIf="!record.main_video_url" data&#45;urlfield="main_video_url">Choose a -->
+                                            <!--     Video -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Main Video ID</mat-label>
+                                            <input matInput formControlName="main_video_id"
+                                                [(ngModel)]="record.main_video_id" placeholder="">
+                                            <mat-error
+                                                *ngIf="productForm.get('main_video_id').hasError('server_validation')">
+                                                {{ productForm.get('main_video_id').getError('server_validation') }}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="record.id > 0" class="col-xs-12 col-md-12">
+                            <app-product-images [parent_id]="record.id"></app-product-images>
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="Models" *ngIf="record.id > 0">
+                        <app-sku [parent_id]="record.id"></app-sku>
+                    </mat-tab>
+
+                    <mat-tab label="Features" *ngIf="record.id > 0">
+                        <app-features [parent_id]="record.id"></app-features>
+                    </mat-tab>
+
+                    <mat-tab label="Specifications" *ngIf="record.id > 0">
+                        <app-specifications [parent_id]="record.id"></app-specifications>
+                    </mat-tab>
+
+                    <mat-tab label="Resources" *ngIf="record.id > 0">
+                        <app-resources [parent_id]="record.id"></app-resources>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </form>
+
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()"
+                style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+        </div>
+    </article>
+</section>

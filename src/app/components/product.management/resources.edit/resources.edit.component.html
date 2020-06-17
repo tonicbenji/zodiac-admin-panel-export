@@ -1,0 +1,72 @@
+<div *ngIf="isDataLoaded">
+    <h2 mat-dialog-title *ngIf="record.id">Edit Resource</h2>
+    <h2 mat-dialog-title *ngIf="!record.id">Add Resource</h2>
+    <form *ngIf="resourcesForm" [formGroup]="resourcesForm">
+        <mat-dialog-content>
+            <div class="col-xs-12 col-md-12">
+                <div class="row m-t-4 m-b-2">
+                    <div class="col-xs-12 col-md-6">
+                        <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled" color="primary">Enabled</mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <p>
+                            <mat-form-field appearance="standard">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="">
+                                <mat-error *ngIf="resourcesForm.get('name').hasError('server_validation')">{{ resourcesForm.get('name').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field class="full-width">
+                                <mat-label>Resource Type</mat-label>
+                                <mat-select required placeholder="Resource Type" formControlName="resource_type_id" [(ngModel)]="record.resource_type_id">
+                                    <mat-option *ngFor="let resource_type of resource_types" [value]="resource_type.id">
+                                        {{ resource_type.name }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="resourcesForm.get('resource_type_id').hasError('server_validation')">{{ resourcesForm.get('resource_type_id').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <p>
+                            <mat-form-field appearance="standard">
+                                <mat-label>Resource Url</mat-label>
+                                <input id="resource_url" matInput formControlName="resource_url" [(ngModel)]="record.resource_url">
+                                <mat-error *ngIf="resourcesForm.get('resource_url').hasError('server_validation')">{{ resourcesForm.get('resource_url').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                            <!-- <a (click)="loadFileManager($event)"> -->
+                            <!--     <span data&#45;urlfield="resource_url">Choose file</span> -->
+                            <!-- </a> -->
+                        </p>
+                    </div>
+                </div>
+                <div class="row col-xs-12 col-md-6">
+                    <p>
+                        <mat-form-field class="full-width">
+                            <mat-label>Order</mat-label>
+                            <mat-select required placeholder="Order" formControlName="order" [(ngModel)]="record.order">
+                                <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                    {{ num }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="resourcesForm.get('order').hasError('server_validation')">{{ resourcesForm.get('order').getError('server_validation') }}</mat-error>
+                        </mat-form-field>
+                    </p>
+                </div>   
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="pull-right">
+            <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+            <button type="button" mat-raised-button mat-dialog-close color="warn" class="btn-w-md" style="margin:10px">
+                Cancel
+            </button>
+        </mat-dialog-actions>     
+    </form>
+</div>

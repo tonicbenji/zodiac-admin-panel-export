@@ -1,0 +1,228 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Category</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Category</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="categoriesForm" [formGroup]="categoriesForm">
+                <mat-tab-group>
+                    <mat-tab label="Details">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4 m-b-2">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled" color="primary">Enabled</mat-slide-toggle>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="" (keyup)="nameChange()">
+                                            <mat-error *ngIf="categoriesForm.get('name').hasError('server_validation')">{{ categoriesForm.get('name').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Slug</mat-label>
+                                            <input matInput formControlName="slug" [(ngModel)]="record.slug" placeholder="">
+                                            <mat-error *ngIf="categoriesForm.get('slug').hasError('server_validation')">{{ categoriesForm.get('slug').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Short Name</mat-label>
+                                            <input matInput formControlName="short_name" [(ngModel)]="record.short_name" placeholder="Short Name">
+                                            <mat-error *ngIf="categoriesForm.get('short_name').hasError('server_validation')">{{ categoriesForm.get('short_name').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Parent Category</mat-label>
+                                            <mat-select required placeholder="Parent Category" formControlName="parent_id" [(ngModel)]="record.parent_id">
+                                                <mat-option *ngFor="let category of categories" [value]="category.id">
+                                                    {{ category.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="categoriesForm.get('parent_id').hasError('server_validation')">{{ categoriesForm.get('parent_id').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <editor formControlName="description" [(ngModel)]="record.description" [init]="tinyMceSettings"></editor>
+                                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Description</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <textarea formControlName="blurb" rows="5" cols="30" [(ngModel)]="record.blurb" placeholder="Blurb" class="textarea"></textarea>
+                                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Blurb</label></span>
+                                        <mat-error *ngIf="categoriesForm.get('blurb').hasError('server_validation')">{{ categoriesForm.get('blurb').getError('server_validation') }}</mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Zone</mat-label>
+                                            <mat-select placeholder="Zone" formControlName="zone" [(ngModel)]="record.zone">
+                                                <mat-option *ngFor="let item of zones" [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="categoriesForm.get('zone').hasError('server_validation')">{{ categoriesForm.get('zone').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <span class="text-muted font-italic" style="display:block;">Hint: If applicable to all zones, leave empty</span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Order</mat-label>
+                                            <mat-select placeholder="Order" formControlName="order" [(ngModel)]="record.order">
+                                                <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                                    {{ num }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="categoriesForm.get('order').hasError('server_validation')">{{ categoriesForm.get('order').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Meta">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Title</mat-label>
+                                            <input matInput formControlName="meta_title" [(ngModel)]="record.meta_title" placeholder="">
+                                            <mat-error *ngIf="categoriesForm.get('meta_title').hasError('server_validation')">{{ categoriesForm.get('meta_title').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Description</mat-label>
+                                            <input matInput formControlName="meta_description" [(ngModel)]="record.meta_description" placeholder="">
+                                            <mat-error *ngIf="categoriesForm.get('meta_description').hasError('server_validation')">{{ categoriesForm.get('meta_description').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Image</mat-label>
+                                            <input id="meta_image" matInput formControlName="meta_image" [(ngModel)]="record.meta_image">
+                                            <mat-error *ngIf="categoriesForm.get('meta_image').hasError('server_validation')">{{ categoriesForm.get('meta_image').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.meta_image" 
+                                                [src]="record.meta_image" 
+                                                data-urlfield="meta_image"/>
+                                            <!-- <span *ngIf="!record.meta_image" -->
+                                            <!--     data&#45;urlfield="meta_image">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Assets">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Main Image Url</mat-label>
+                                            <input id="main_image_url" matInput formControlName="main_image_url" [(ngModel)]="record.main_image_url">
+                                            <mat-error *ngIf="categoriesForm.get('main_image_url').hasError('server_validation')">{{ categoriesForm.get('main_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.main_image_url" 
+                                                [src]="record.main_image_url" 
+                                                data-urlfield="main_image_url"/>
+                                            <span *ngIf="!record.main_image_url"
+                                                data-urlfield="main_image_url">Choose an Image
+                                            </span>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>List Image Url</mat-label>
+                                            <input id="list_image_url" matInput formControlName="list_image_url" [(ngModel)]="record.list_image_url">
+                                            <mat-error *ngIf="categoriesForm.get('list_image_url').hasError('server_validation')">{{ categoriesForm.get('list_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.list_image_url" 
+                                                [src]="record.list_image_url" 
+                                                data-urlfield="list_image_url"/>
+                                            <span *ngIf="!record.list_image_url"
+                                                data-urlfield="list_image_url">Choose an Image
+                                            </span>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Home Image Url</mat-label>
+                                            <input id="home_image_url" matInput formControlName="home_image_url" [(ngModel)]="record.home_image_url">
+                                            <mat-error *ngIf="categoriesForm.get('home_image_url').hasError('server_validation')">{{ categoriesForm.get('home_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.home_image_url" 
+                                                [src]="record.home_image_url" 
+                                                data-urlfield="home_image_url"/>
+                                            <span *ngIf="!record.home_image_url"
+                                                data-urlfield="home_image_url">Choose an Image
+                                            </span>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Header Image Url</mat-label>
+                                            <input id="header_image_url" matInput formControlName="header_image_url" [(ngModel)]="record.header_image_url">
+                                            <mat-error *ngIf="categoriesForm.get('header_image_url').hasError('server_validation')">{{ categoriesForm.get('header_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.header_image_url" 
+                                                [src]="record.header_image_url" 
+                                                data-urlfield="header_image_url"/>
+                                            <span *ngIf="!record.header_image_url"
+                                                data-urlfield="header_image_url">Choose an Image
+                                            </span>
+                                        </a>
+                                    </p>
+                                </div>    
+                            </div>
+                        </div>
+                    </mat-tab>          
+                </mat-tab-group>
+            </form>
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+        </div>
+    </article>
+</section>

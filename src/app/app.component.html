@@ -1,0 +1,209 @@
+﻿<nav class="px-nav px-nav-left">
+    <button type="button" class="px-nav-toggle" data-toggle="px-nav">
+        <span class="px-nav-toggle-arrow"></span>
+        <span class="navbar-toggle-icon"></span>
+        <span class="px-nav-toggle-label font-size-11">HIDE MENU</span>
+    </button>
+
+    <ul class="px-nav-content" [ngClass]="{'hidden':!authenticationService.currentUserValue}">
+            <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
+                <div class="font-size-16" *ngIf="authenticationService.currentUserValue">
+                    <span class="font-weight-light">Welcome, </span>
+                    <strong>{{ authenticationService.currentUserValue.name }}</strong>
+                </div>
+            </li>
+            <li class="px-nav-item" [ngClass]="{'active': router.url == '/'}">
+                <a routerLink="/">
+                    <i class="px-nav-icon fa fa-dashboard"></i>
+                    <span class="px-nav-label">Dashboard</span>
+                </a>
+            </li>
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/users', '/roles'])}">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-group"></i>
+                    <span class="px-nav-label">User Management</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/users'])}">
+                        <a routerLink="/users">
+                            <span class="px-nav-label">Users</span>
+                        </a>
+                    </li>
+                    <!-- li class="px-nav-item" [ngClass]="{'active': hasPath(['/roles'])}">
+                        <a routerLink="/roles">
+                            <span class="px-nav-label">Roles</span>
+                        </a>
+                    </li -->
+                </ul>
+            </li>
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/products', '/categories', '/bookgroups'])}">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-cubes"></i>
+                    <span class="px-nav-label">Product Management</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/products'])}">
+                        <a routerLink="/products">
+                            <span class="px-nav-label">Products</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/categories'])}">
+                        <a routerLink="/categories">
+                            <span class="px-nav-label">Categories</span>
+                        </a>
+                    </li>
+                     <li class="px-nav-item" [ngClass]="{'active': hasPath(['/bookgroups'])}">
+                        <a routerLink="/bookgroups">
+                            <span class="px-nav-label">Book a Demo Groups</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/pools'])}">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-life-saver"></i>
+                    <span class="px-nav-label">Pool Management</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/pools'])}">
+                        <a routerLink="/pools">
+                            <span class="px-nav-label">Pools</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/pages', '/poolspaguides', '/assistance'])}">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-files-o"></i>
+                    <span class="px-nav-label">Page Management</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/pages'])}">
+                        <a routerLink="/pages">
+                            <span class="px-nav-label">Pages</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/poolspaguides'])}">
+                        <a routerLink="/poolspaguides">
+                            <span class="px-nav-label">Guides</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/poolcatalogues'])}">
+                        <a routerLink="/poolcatalogues">
+                            <span class="px-nav-label">Catalogues</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/assistance'])}">
+                        <a routerLink="/assistance">
+                            <span class="px-nav-label">Equipment Assistance</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/microsites'])}">
+                        <a routerLink="/microsites">
+                            <span class="px-nav-label">Micro Sites</span>
+                        </a>
+                    </li>     
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/snippets'])}">
+                        <a routerLink="/snippets">
+                            <span class="px-nav-label">Snippets</span>
+                        </a>
+                    </li>                      
+                </ul>
+            </li>         
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/banners'])}">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-bullhorn"></i>
+                    <span class="px-nav-label">Promotions</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/banners'])}">
+                        <a routerLink="/banners">
+                            <span class="px-nav-label">Banners</span>
+                        </a>
+                    </li>
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/tags'])}">
+                        <a routerLink="/tags">
+                            <span class="px-nav-label">Product Tags</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="px-nav-item px-nav-dropdown" [ngClass]="{'active': hasPath(['/reports/builder-contact-requests'])}" *ngIf="1==0">
+                <a href="#">
+                    <i class="px-nav-icon fa fa-building"></i>
+                    <span class="px-nav-label">Reports</span>
+                </a>
+                <ul class="px-nav-dropdown-menu">
+                    <li class="px-nav-item" [ngClass]="{'active': hasPath(['/reports/builder-contact-requests'])}">
+                        <a routerLink="/reports/builder-contact-requests">
+                            <span class="px-nav-label">Builder Contact Requests</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="px-nav-item" [ngClass]="{'active': hasPath(['/faq'])}">
+                <a routerLink="/faq">
+                    <i class="px-nav-icon fa fa-question-circle"></i>
+                    <span class="px-nav-label">FAQ</span>
+                </a>
+            </li>
+            <li class="px-nav-item" [ngClass]="{'active': hasPath(['/dealers'])}">
+                <a routerLink="/dealers">
+                    <i class="px-nav-icon fa fa-user"></i>
+                    <span class="px-nav-label">Dealers</span>
+                </a>
+            </li>
+            <li class="px-nav-item" [ngClass]="{'active': hasPath(['/warranties'])}">
+                <a routerLink="/warranties">
+                    <i class="px-nav-icon fa fa-comment"></i>
+                    <span class="px-nav-label">Warranty Registration</span>
+                </a>
+            </li>            
+            <li class="px-nav-item" [ngClass]="{'active': hasPath(['/bookservices'])}">
+                <a routerLink="/bookservices">
+                    <i class="px-nav-icon fa fa-bookmark"></i>
+                    <span class="px-nav-label">Service My Pool</span>
+                </a>
+            </li>            
+            <li class="px-nav-item">
+                <a id="file-manager-browse" href="javascript:;" (click)="openFM()">
+                    <i class="px-nav-icon fa fa-folder-open"></i>
+                    <span class="px-nav-label">File Manager<span class="label icon-label"><i class="fa fa-expand"></i></span></span>
+                </a>
+            </li>
+    </ul>
+</nav>
+
+<nav class="navbar px-navbar">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+            <span class="px-demo-logo">
+                <img src="/cdn/admin/app/assets/images/logo.png" alt="Zodiac">
+            </span>
+        </a>
+    </div>
+
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#px-navbar-collapse" aria-expanded="false">
+        <i class="navbar-toggle-icon"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="px-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="authenticationService.currentUserValue && !authenticationService.loginPopup">
+                <a href="javascript:;" (click)="logout()">
+                    <i class="px-nav-icon fa fa-power-off"></i>Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<mat-progress-bar mode="indeterminate" *ngIf="alertService.networkActivity" style="z-index: 100000;"></mat-progress-bar>
+
+<div class="px-content">
+    <alert></alert>
+    <br>
+    <login-dialog *ngIf="authenticationService.loginPopup"></login-dialog>
+    <router-outlet *ngIf="!authenticationService.loginPopup"></router-outlet>
+</div>

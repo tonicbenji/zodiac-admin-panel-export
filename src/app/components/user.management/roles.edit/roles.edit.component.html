@@ -1,0 +1,32 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Role</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Role</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="roleForm" [formGroup]="roleForm">
+                <div class="col-xs-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="Name">
+                                    <mat-error *ngIf="roleForm.get('name').hasError('server_validation')">{{ roleForm.get('name').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save page
+            </button>
+        </div>
+    </article>
+</section>
+    

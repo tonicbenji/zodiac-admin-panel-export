@@ -1,0 +1,50 @@
+<div [ngClass]="{hidden: mode != 'list'}">
+<div class="page-header">
+    <h1>
+        <i class="fa fa-dashboard page-header-icon"></i>Categories
+    </h1>
+</div>
+<section class="container-fluid with-maxwidth chapter">
+    <article class="article">
+        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+            <div class="col-xs-12">
+                <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="addCategory()" style="margin:10px">
+                    Add a new Category
+                </button>
+                <table datatable [dtOptions]="dtOptions" class="row-border dataTable">
+                    <thead>
+                        <tr>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Zone</th>
+                        <th>Enabled</th>
+                        <th>Order</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>ID</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let record of records">
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.slug }}</td>
+                            <td>{{ record.zone }}</td>
+                            <td>{{ record.enabled }}</td>
+                            <td>{{ record.order }}</td>
+                            <td>{{ fromUtc(record.created_at) | date }}</td>
+                            <td>{{ fromUtc(record.updated_at) | date }}</td>
+                            <td>{{ record.id }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </div>
+    </article>
+</section>
+</div>
+<div *ngIf="mode=='edit'">
+<categories-edit id="{{ record_id }}" (close)="close()"></categories-edit>
+</div>

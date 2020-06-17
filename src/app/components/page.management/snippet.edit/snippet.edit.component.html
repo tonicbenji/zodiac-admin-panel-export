@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Editing Snippet</h1>
+  <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Adding Snippet</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+  <article class="article">
+    <div class="box box-default">
+      <form *ngIf="form" [formGroup]="form">
+        <div class="col-xs-12 col-md-12">
+          <div class="row m-t-4 m-b-2">
+            <div class="col-xs-12 col-md-12">
+              <p>
+                <mat-form-field appearance="standard">
+                  <mat-label>Title</mat-label>
+                  <input matInput formControlName="title" [(ngModel)]="record.title" placeholder="Title">
+                  <mat-error *ngIf="form.get('title').hasError('server_validation')">
+                    {{ form.get('title').getError('server_validation') }}</mat-error>
+                </mat-form-field>
+              </p>
+            </div>
+          </div>
+          <div class="row m-t-4 m-b-2" [ngClass]="id !== 'new' ? 'hidden' : ''">
+            <div class="col-xs-12 col-md-12">
+              <p>
+                <mat-form-field appearance="standard">
+                  <mat-label>Key</mat-label>
+                  <input matInput formControlName="key" [(ngModel)]="record.key" placeholder="Key">
+                  <mat-error *ngIf="form.get('key').hasError('server_validation')">
+                    {{ form.get('key').getError('server_validation') }}</mat-error>
+                </mat-form-field>
+              </p>
+            </div>
+          </div>
+          <div class="row m-t-4 m-b-2" [ngClass]="id !== 'new' ? '' : 'hidden'">
+            <div class="col-xs-12 col-md-12">
+              <mat-label>Key</mat-label>
+              <p>{{ record.key }}</p>
+            </div>
+          </div>
+          <div class="row m-t-4 m-b-2">
+            <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+              <div class="mat-form-field-infix">
+                <editor formControlName="content" [(ngModel)]="record.content" [init]="tinyMceSettings"></editor>
+                <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Content</label></span>
+                <mat-error *ngIf="form.get('content').hasError('server_validation')">
+                  {{ form.get('content').getError('server_validation') }}</mat-error>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </form>
+      <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()"
+        style="margin:10px">
+        Cancel
+      </button>
+      <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()"
+        [disabled]="alertService.networkActivity" style="margin:10px">
+        Save
+      </button>
+    </div>
+  </article>
+</section>

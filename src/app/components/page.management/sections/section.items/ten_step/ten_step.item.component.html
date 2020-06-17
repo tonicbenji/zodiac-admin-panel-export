@@ -1,0 +1,55 @@
+<div class="section-item">
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="item.id == 0">
+            
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ item.field_1}}
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field>
+                <mat-label>Title</mat-label>
+                <input matInput placeholder="Title" [(ngModel)]="item.field_1">
+            </mat-form-field>
+            <span class="text-danger" *ngIf="item.errors">{{ item.errors.field_1}}</span>
+
+            <p>
+                <mat-form-field>
+                    <mat-label>Image Url</mat-label>
+                    <input id="slider_image_url" matInput [(ngModel)]="item.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="item.errors">{{ item.errors.field_2}}</span>
+                <a (click)="loadFileManager($event)" class="img-preview">
+                    <img *ngIf="item.field_2" 
+                        [src]="item.field_2" 
+                        data-urlfield="slider_image_url"/>
+                    <span *ngIf="!item.field_2"
+                        data-urlfield="slider_image_url">Choose an Image
+                    </span>
+                </a>
+            </p>
+
+            <mat-form-field>
+                <mat-label>Link</mat-label>
+                <input matInput placeholder="Link" [(ngModel)]="item.field_3">
+            </mat-form-field>
+            <span class="text-danger" *ngIf="item.errors">{{ item.errors.field_3}}</span>
+
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="5" cols="30" [(ngModel)]="item.field_5" placeholder="Description"></textarea>
+            </mat-form-field>
+            <span class="text-danger" *ngIf="item.errors">{{ item.errors.field_5}}</span>
+
+            <mat-action-row class="action-row-left">
+                <button mat-button 
+                    color="warn"
+                    (click)="delete.emit()">Delete Item</button>
+            </mat-action-row>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

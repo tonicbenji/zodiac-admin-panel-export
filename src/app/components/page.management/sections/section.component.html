@@ -1,0 +1,403 @@
+<div class="section">
+    
+    <mat-accordion>
+        
+        <mat-expansion-panel [expanded]="section.id == 0 || section.errors">
+
+            <mat-expansion-panel-header>
+                <mat-panel-title style="width: 300px;">
+                    {{ section.section_type}}
+                </mat-panel-title>
+                <mat-panel-description *ngIf="section.section_type == 'Banner' || section.section_type == 'List'">
+                    {{ section.field_1}}
+                </mat-panel-description>
+                <mat-panel-description *ngIf="section.items.length > 0">
+                    {{ section.items.length}} items
+                </mat-panel-description>
+                <mat-panel-description *ngIf="section.section_type == 'Products List' || section.section_type == 'Guides List'">
+                    {{ section.field_1.data.length}} selections
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button (click)="moveUp.emit()" class="btn-sm btn-warning" style="margin-right: 5px;">Up</button>
+                    <button (click)="moveDown.emit()" class="btn-sm btn-primary">Down</button>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-slide-toggle color="primary" [(ngModel)]="section.enabled">Enabled</mat-slide-toggle>
+                </div>
+            </div>
+
+            <br>
+            
+            <mat-form-field>
+                <mat-select placeholder="Section Type" [(ngModel)]="section.section_type_id" (selectionChange)="updateSectionType()">
+                    <mat-option *ngFor="let section_type of section_types" [value]="section_type.id">
+                        {{ section_type.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <span class="text-danger" *ngIf="section.errors">{{ section.errors.section_type_id }}</span>
+            
+            <!-- banner -->
+            <div *ngIf="section.section_type == 'Banner'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+                
+                <p>
+                    <mat-form-field>
+                        <mat-label>Image Url</mat-label>
+                        <input id="section_image_url" matInput [(ngModel)]="section.field_2">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_2" 
+                            [src]="section.field_2" 
+                            data-urlfield="section_image_url"/>
+                        <span *ngIf="!section.field_2"
+                            data-urlfield="section_image_url">Choose an Image
+                        </span>
+                    </a>
+                </p>
+    
+                <mat-form-field>
+                    <mat-label>Link</mat-label>
+                    <input matInput placeholder="Link" [(ngModel)]="section.field_3">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>
+    
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="5" cols="30" [(ngModel)]="section.field_5" placeholder="Description"></textarea>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+            
+            </div>
+
+            <!-- heading -->
+            <div *ngIf="section.section_type == 'Heading'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>                
+            </div>
+
+             <!-- Promotion Banner -->
+            <div *ngIf="section.section_type == 'Promotion Banner'">
+                <mat-form-field>
+                    <mat-label>Banner Name  {{section.field_1}}</mat-label>
+                    <mat-select placeholder="Promotion name" [(ngModel)]="section.field_1">
+                        <mat-option *ngFor="let item of banner_types" [value]="item.id">
+                            {{ item.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>                
+            </div>
+
+            <!-- content -->
+            <div *ngIf="section.section_type == 'Content'">
+                <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+                    <div class="mat-form-field-infix">
+                        <editor [(ngModel)]="section.field_5" [init]="tinyMceSettings"></editor>
+                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Content</label></span>
+                    </div>
+                </div>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>           
+            </div>
+
+            <!-- Request A Service -->
+            <div *ngIf="section.section_type == 'Request A Service'">
+                 <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span> 
+
+                <mat-form-field>
+                    <mat-label>Link Title</mat-label>
+                    <input matInput placeholder="Link Title" [(ngModel)]="section.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>    
+
+
+                <mat-form-field>
+                    <mat-label>Link</mat-label>
+                    <input matInput placeholder="Link" [(ngModel)]="section.field_3">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>    
+
+                 <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="5" cols="30" [(ngModel)]="section.field_5" placeholder="Description" style="height:180px;"></textarea>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+            </div>
+
+            <!-- video -->
+            <div *ngIf="section.section_type == 'Video'">
+                <mat-form-field>
+                    <mat-label>Video ID</mat-label>
+                    <input matInput placeholder="Video ID" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+
+                <mat-form-field>
+                    <mat-label>Video Description</mat-label>
+                    <input matInput placeholder="Video Description" [(ngModel)]="section.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                
+                <p>
+                    <mat-form-field>
+                        <mat-label>Video Image Url</mat-label>
+                        <input id="section_video_url" matInput [(ngModel)]="section.field_3">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_3" 
+                            [src]="section.field_3" 
+                            data-urlfield="section_video_url"/>
+                        <span *ngIf="!section.field_3"
+                            data-urlfield="section_video_url">Choose video
+                        </span>
+                    </a>
+                </p>
+            </div>
+
+            <!-- products list -->
+            <div *ngIf="section.section_type == 'Products List' || section.section_type == 'Micro Site Featured Products'">
+                <div *ngIf="section.section_type == 'Micro Site Featured Products'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <mat-label>Related Products</mat-label>
+                        <autocomplete [lookup_endpoint]="products_lookup_endpoint" 
+                            [selected_ids]="section.field_1"></autocomplete>
+                    </div>
+                </div>
+            </div>
+
+            <!-- guides list -->
+            <div *ngIf="section.section_type == 'Guides List'">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <mat-label>Related Pool Spa Guides</mat-label>
+                        <autocomplete [lookup_endpoint]="poolspa_guides_lookup_endpoint" 
+                            [selected_ids]="section.field_1"></autocomplete>
+                    </div>
+                </div>
+            </div>
+
+            <!-- list (categories, pools, featured products) -->
+            <div *ngIf="section.section_type == 'Categories List' || section.section_type == 'Featured Products' || section.section_type == 'Pools List' || section.section_type == 'Micro Site Header'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="5" cols="30" [(ngModel)]="section.field_5" placeholder="Description"></textarea>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+            </div>
+
+            <!-- Micro Site Header   -->
+            <div *ngIf="section.section_type == 'Micro Site Header'">
+                <p>
+                    <mat-form-field>
+                        <mat-label>Logo Image URL</mat-label>
+                        <input id="section_image_url" matInput [(ngModel)]="section.field_2">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_2" 
+                            [src]="section.field_2" 
+                            data-urlfield="section_image_url"/>
+                        <span *ngIf="!section.field_2"
+                            data-urlfield="section_image_url">Choose an Image
+                        </span>
+                    </a>
+                </p>
+
+                  <p>
+                    <mat-form-field>
+                        <mat-label>Product Image URL</mat-label>
+                        <input id="section_image_url1" matInput [(ngModel)]="section.field_3">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_3" 
+                            [src]="section.field_3" 
+                            data-urlfield="section_image_url1"/>
+                        <span *ngIf="!section.field_3"
+                            data-urlfield="section_image_url1">Choose an Image
+                        </span>
+                    </a>
+                </p>                
+                <mat-form-field>
+                    <mat-label>Link</mat-label>
+                    <input matInput placeholder="Link" [(ngModel)]="section.field_4">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_4}}</span>
+            </div>
+
+            <div *ngIf="section.section_type == 'Micro Site Sign up form'">            
+                 <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+             
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="5" cols="30" [(ngModel)]="section.field_5" placeholder="Description"></textarea>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+               
+                <mat-form-field>
+                    <mat-label>Email Address</mat-label>
+                    <input matInput placeholder="Email Address" [(ngModel)]="section.field_3">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>                          
+            </div>
+
+            <!-- ten steps and Micro Sites-->
+            <div *ngIf="section.section_type == 'Ten Steps' || section.section_type == 'Micro Site Introduction' || section.section_type == 'Micro Site Content 1' || section.section_type == 'Micro Site Content 2' || section.section_type == 'Micro Site Features'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+              
+                <p *ngIf="section.section_type == 'Micro Site Content 2'">
+                    <mat-form-field>
+                        <mat-label>Image Url</mat-label>
+                        <input id="section_image_url" matInput [(ngModel)]="section.field_2">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_2" 
+                            [src]="section.field_2" 
+                            data-urlfield="section_image_url"/>
+                        <span *ngIf="!section.field_2"
+                            data-urlfield="section_image_url">Choose an Image
+                        </span>
+                    </a>
+                </p>
+
+                <div *ngIf="section.section_type == 'Micro Site Introduction' || section.section_type == 'Micro Site Content 2'">
+                    <mat-form-field>
+                        <mat-label>Description</mat-label>
+                        <textarea matInput rows="3" cols="30" [(ngModel)]="section.field_5" placeholder="Description"></textarea>
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+                </div>
+            </div>
+
+            <!-- wide banner -->
+            <div *ngIf="section.section_type == 'Wide Banner'">
+                <mat-form-field>
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+                
+                <p>
+                    <mat-form-field>
+                        <mat-label>Image Url</mat-label>
+                        <input id="section_image_url" matInput [(ngModel)]="section.field_2">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_2" 
+                            [src]="section.field_2" 
+                            data-urlfield="section_image_url"/>
+                        <span *ngIf="!section.field_2"
+                            data-urlfield="section_image_url">Choose an Image
+                        </span>
+                    </a>
+                </p>
+    
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="5" cols="30" [(ngModel)]="section.field_5" placeholder="Description"></textarea>
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_5}}</span>
+            
+            </div>
+
+              <!-- Micro Site video -->
+            <div *ngIf="section.section_type == 'Micro Site Video'">
+                <mat-form-field>
+                    <mat-label>Video ID</mat-label>
+                    <input matInput placeholder="Video ID" [(ngModel)]="section.field_1">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_1}}</span>
+
+                <mat-form-field>
+                    <mat-label>Video Description</mat-label>
+                    <input matInput placeholder="Video Description" [(ngModel)]="section.field_2">
+                </mat-form-field>
+                <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_2}}</span>
+                
+                <p>
+                    <mat-form-field>
+                        <mat-label>Video Image Url</mat-label>
+                        <input id="section_video_url" matInput [(ngModel)]="section.field_3">
+                    </mat-form-field>
+                    <span class="text-danger" *ngIf="section.errors">{{ section.errors.field_3}}</span>
+                    <a (click)="loadFileManager($event)" class="img-preview">
+                        <img *ngIf="section.field_3" 
+                            [src]="section.field_3" 
+                            data-urlfield="section_video_url"/>
+                        <span *ngIf="!section.field_3"
+                            data-urlfield="section_video_url">Choose video
+                        </span>
+                    </a>
+                </p>
+            </div>
+            
+            <div *ngFor="let item of section.items; index as i">
+                <div *ngIf="section.section_type == 'Slider'">
+                    <slider-item-component [item]="item" (delete)="deleteItem(i)"></slider-item-component>
+                </div>
+                <div *ngIf="section.section_type == 'Ten Steps' || section.section_type == 'Micro Site Introduction' || section.section_type == 'Micro Site Content 1' || section.section_type == 'Micro Site Content 2' || section.section_type == 'Micro Site Features'">
+                    <tenstep-item-component [item]="item" (delete)="deleteItem(i)"></tenstep-item-component>
+                </div>
+                <div *ngIf="section.section_type == 'Accordion'">
+                    <accordion-item-component [item]="item" (delete)="deleteItem(i)"></accordion-item-component>
+                </div>
+            </div>
+
+            <!-- items action -->
+            <mat-action-row class="action-row-left">
+                <button mat-button *ngIf="['Slider','Ten Steps','Micro Site Introduction','Micro Site Content 1','Micro Site Content 2','Micro Site Features','Accordion'].indexOf(section.section_type) > -1"
+                    color="primary"
+                    (click)="addSectionItem()">Add {{ section.section_type}} Item</button>
+                <button mat-button 
+                    color="warn"
+                    (click)="delete.emit()">Delete Section</button>
+            </mat-action-row>
+
+        </mat-expansion-panel>
+    
+    </mat-accordion>
+</div>

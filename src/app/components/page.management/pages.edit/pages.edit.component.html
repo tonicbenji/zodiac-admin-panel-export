@@ -1,0 +1,181 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit {{ entity }}</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add {{ entity }}</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <div class="col-xs-12">
+                <form *ngIf="pagesForm" [formGroup]="pagesForm">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row m-t-4 m-b-2" *ngIf="record.system == 0 || !record.id">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled" color="primary">Enabled</mat-slide-toggle>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Name *</mat-label>
+                                            <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="Name" (keyup)="nameChange()"/>
+                                            <mat-error *ngIf="pagesForm.get('name').hasError('server_validation')">{{ pagesForm.get('name').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Slug *</mat-label>
+                                            <input matInput formControlName="slug" [(ngModel)]="record.slug" placeholder="Slug">
+                                            <mat-error *ngIf="pagesForm.get('slug').hasError('server_validation')">{{ pagesForm.get('slug').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Zone</mat-label>
+                                            <mat-select placeholder="Zone" formControlName="zone" [(ngModel)]="record.zone">
+                                                <mat-option *ngFor="let item of zones" [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="pagesForm.get('zone').hasError('server_validation')">{{ pagesForm.get('zone').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <span class="text-muted font-italic" style="display:block;">Hint: If applicable to all zones, leave empty</span>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p *ngIf="entity == 'Pool Catalogues'">
+                                            <mat-label [ngClass]="{hidden:entity != 'Pool Catalogues'}">Is private</mat-label><br>                                            
+                                            <mat-slide-toggle formControlName="category" [(ngModel)]="record.category" color="primary">Yes</mat-slide-toggle>                                        
+                                    </p>
+                                    <p *ngIf="entity != 'Pool Catalogues'">
+                                        <mat-form-field appearance="standard">
+                                            <mat-label >Meta Title</mat-label>
+                                            <input matInput formControlName="meta_title" [(ngModel)]="record.meta_title" placeholder="Meta Title">                                            
+                                            <mat-error *ngIf="pagesForm.get('meta_title').hasError('server_validation')">{{ pagesForm.get('meta_title').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label [ngClass]="{hidden:entity == 'Pool Catalogues'}">Meta Description</mat-label>
+                                            <mat-label [ngClass]="{hidden:entity != 'Pool Catalogues'}">URL</mat-label>                                            
+                                            <input matInput formControlName="meta_description" [(ngModel)]="record.meta_description" placeholder="Meta Description">
+                                            <mat-error *ngIf="pagesForm.get('meta_description').hasError('server_validation')">{{ pagesForm.get('meta_description').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6" [ngClass]="{hidden:entity == 'Pool Catalogues'}">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>Meta Image</mat-label>
+                                            <input id="meta_image" matInput formControlName="meta_image" [(ngModel)]="record.meta_image">
+                                            <mat-error *ngIf="pagesForm.get('meta_image').hasError('server_validation')">{{ pagesForm.get('meta_image').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.meta_image" 
+                                                [src]="record.meta_image" 
+                                                data-urlfield="meta_image"/>
+                                            <!-- <span *ngIf="!record.meta_image" -->
+                                            <!--     data&#45;urlfield="meta_image">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6" [ngClass]="{hidden:type == 'pages' || type == 'microsites'}">
+                                    <p>
+                                        <mat-form-field appearance="standard">
+                                            <mat-label>List Image</mat-label>
+                                            <input id="list_image" matInput formControlName="list_image_url" [(ngModel)]="record.list_image_url">
+                                            <mat-error *ngIf="pagesForm.get('list_image_url').hasError('server_validation')">{{ pagesForm.get('list_image_url').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                        <a (click)="loadFileManager($event)" class="img-preview">
+                                            <img *ngIf="record.list_image_url" 
+                                                [src]="record.list_image_url" 
+                                                data-urlfield="list_image_url"/>
+                                            <!-- <span *ngIf="!record.list_image_url" -->
+                                            <!--     data&#45;urlfield="list_image_url">Choose an Image -->
+                                            <!-- </span> -->
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" [ngClass]="{hidden:type == 'pages' || type == 'microsites'}">
+                                <div class="col-xs-12 col-md-12" [ngClass]="{hidden:entity == 'Pool Catalogues'}">
+                                    <p>
+                                        <mat-form-field class="full-width">
+                                            <mat-label>Category</mat-label>
+                                            <mat-select required placeholder="Category" formControlName="category" [(ngModel)]="record.category">
+                                                <mat-option *ngFor="let category of categories" [value]="category.id">
+                                                    {{ category.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="pagesForm.get('category').hasError('server_validation')">{{ pagesForm.get('category').getError('server_validation') }}</mat-error>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+                                    <div class="mat-form-field-infix">
+                                        <textarea formControlName="blurb" rows="5" cols="30" [(ngModel)]="record.blurb" placeholder="Blurb" class="textarea"></textarea>
+                                        <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Blurb</label></span>
+                                        <mat-error *ngIf="pagesForm.get('blurb').hasError('server_validation')">{{ pagesForm.get('blurb').getError('server_validation') }}</mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" [ngClass]="{hidden:type != 'assistance'}">
+                                <div class="col-xs-12 col-md-6">
+                                    <mat-label>Related Product</mat-label>
+                                    <autocomplete [lookup_endpoint]="products_lookup_endpoint" 
+                                        [selected_ids]="record.related_entity_id" 
+                                        restrict="1"></autocomplete>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12" [ngClass]="{hidden:entity == 'Pool Catalogues'}">
+                        <div class="col-xs-12 col-md-12">
+
+                            <!-- placeholder for sections to layout -->
+                            <div class="row">
+                                <h2>Sections</h2>
+                                <div *ngFor="let section of this.orderedSections(); index as i">
+                                    <section-component [section]="section" [section_types]="section_types" [banner_types]="banner_types" (delete)="deleteSection(i)" (moveUp)="moveSectionUp(i)" (moveDown)="moveSectionDown(i)"></section-component>
+                                </div>
+
+                                <div class="m-t-4">
+                                    <button mat-raised-button 
+                                        color="primary" 
+                                        class="btn-w-md" 
+                                        (click)="addSection()">
+                                        Add a new Section
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                                    
+                </form>
+                <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                    Cancel
+                </button>
+                <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                    Save
+                </button>
+            </div>
+        </div>
+    </article>
+</section>
+    

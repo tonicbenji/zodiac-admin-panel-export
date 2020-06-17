@@ -1,0 +1,121 @@
+<div *ngIf="isDataLoaded">
+    <h2 mat-dialog-title *ngIf="record.id">Edit Feature</h2>
+    <h2 mat-dialog-title *ngIf="!record.id">Add Feature</h2>
+    <form *ngIf="featuresForm" [formGroup]="featuresForm">
+        <mat-dialog-content>
+            <div class="col-xs-12 col-md-12">
+                <div class="row m-t-4 m-b-2">
+                    <div class="col-xs-12 col-md-6">
+                        <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled" color="primary">Enabled</mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="standard">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="">
+                                <mat-error *ngIf="featuresForm.get('name').hasError('server_validation')">{{ featuresForm.get('name').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <p>
+                            <mat-form-field class="full-width">
+                                <mat-label>Feature Type</mat-label>
+                                <mat-select required placeholder="Feature Type" formControlName="feature_type_id" [(ngModel)]="record.feature_type_id">
+                                    <mat-option *ngFor="let feature_type of feature_types" [value]="feature_type.id">
+                                        {{ feature_type.name }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="featuresForm.get('feature_type_id').hasError('server_validation')">{{ featuresForm.get('feature_type_id').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+                        <div class="mat-form-field-infix">
+                            <editor formControlName="description" [(ngModel)]="record.description" [init]="tinyMceSettings"></editor>
+                            <span class="mat-form-field-label-wrapper"><label class="mat-form-field-label">Description</label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="standard">
+                                <mat-label>List Image Url</mat-label>
+                                <input id="list_image_url" matInput formControlName="list_image_url" [(ngModel)]="record.list_image_url">
+                                <mat-error *ngIf="featuresForm.get('list_image_url').hasError('server_validation')">{{ featuresForm.get('list_image_url').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                            <span class="text-muted font-italic" style="display:block;">Hint: For feature type of Block, please choose icon as list image.</span>
+                            <a (click)="loadFileManager($event)" class="img-preview">
+                                <img *ngIf="record.list_image_url" 
+                                    [src]="record.list_image_url" 
+                                    data-urlfield="list_image_url"/>
+                                <!-- <span *ngIf="!record.list_image_url" -->
+                                <!--     data&#45;urlfield="list_image_url">Choose an Image -->
+                                <!-- </span> -->
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <p>
+                            <mat-form-field class="full-width">
+                                <mat-label>Order</mat-label>
+                                <mat-select required placeholder="Order" formControlName="order" [(ngModel)]="record.order">
+                                    <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                        {{ num }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="featuresForm.get('order').hasError('server_validation')">{{ featuresForm.get('order').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </p>
+                    </div>  
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="pull-right">
+            <button type="button" mat-raised-button color="primary" class="btn-w-md" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+            <button type="button" mat-raised-button mat-dialog-close color="warn" class="btn-w-md" style="margin:10px">
+                Cancel
+            </button>
+        </mat-dialog-actions>                    
+    </form>
+</div>
+
+<!-- <div class="col&#45;xs&#45;12 col&#45;md&#45;6"> -->
+<!--     <p> -->
+<!--         <mat&#45;form&#45;field appearance="standard"> -->
+<!--             <mat&#45;label>List Video Image Url</mat&#45;label> -->
+<!--             <input id="list_video_url" matInput formControlName="list_video_url" [(ngModel)]="record.list_video_url"> -->
+<!--             <mat&#45;error *ngIf="featuresForm.get('list_video_url').hasError('server_validation')">{{ featuresForm.get('list_video_url').getError('server_validation') }}</mat&#45;error> -->
+<!--         </mat&#45;form&#45;field> -->
+<!--         <a (click)="loadFileManager($event)" class="img&#45;preview"> -->
+<!--             <img *ngIf="record.list_video_url"  -->
+<!--                 [src]="record.list_video_url"  -->
+<!--                 data&#45;urlfield="list_video_url"/> -->
+<!--             <span *ngIf="!record.list_video_url" -->
+<!--                 data&#45;urlfield="list_video_url">Choose a Video -->
+<!--             </span> -->
+<!--         </a> -->
+<!--     </p> -->
+<!-- </div> -->
+<!-- <div class="row"> -->
+<!-- <div class="col&#45;xs&#45;12 col&#45;md&#45;6"> -->
+<!--     <p> -->
+<!--         <mat&#45;form&#45;field appearance="standard"> -->
+<!--             <mat&#45;label>List Video ID</mat&#45;label> -->
+<!--             <input matInput formControlName="list_video_id" -->
+<!--                 [(ngModel)]="record.list_video_id" placeholder=""> -->
+<!--             <mat&#45;error -->
+<!--                 *ngIf="featuresForm.get('list_video_id').hasError('server_validation')"> -->
+<!--                 {{ featuresForm.get('list_video_id').getError('server_validation') }} -->
+<!--             </mat&#45;error> -->
+<!--         </mat&#45;form&#45;field> -->
+<!--     </p> -->
+<!-- </div> -->
+<!-- </div>  -->

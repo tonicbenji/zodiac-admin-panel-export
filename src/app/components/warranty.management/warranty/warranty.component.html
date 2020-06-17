@@ -1,0 +1,50 @@
+<div [ngClass]="{hidden: mode != 'list'}">
+<div class="page-header">
+    <h1>
+        <i class="fa fa-dashboard page-header-icon"></i>Warranty Registration Records
+    </h1>
+</div>
+<section class="container-fluid with-maxwidth chapter">
+    <article class="article">
+        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+            <div class="col-xs-12">
+                 <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="salesForce()" style="margin:10px">
+                    Manually Run SalesForce Connection
+                </button>
+                <table datatable [dtOptions]="dtOptions" class="row-border dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Date of Purchase</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>ID</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let record of records">
+                            <td>{{ record.full_name }}</td>
+                            <td>{{ record.email }}</td>
+                            <td>{{ record.date-of-purchase }}</td>
+                            <td>{{ record.state }}</td>
+                            <td>{{ record.country }}</td>
+                            <td>{{ fromUtc(record.created_at) | date }}</td>
+                            <td>{{ fromUtc(record.updated_at) | date }}</td>
+                            <td>{{ record.id }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </div>
+    </article>
+</section>
+</div>
+<div *ngIf="mode=='edit'">
+<warranty-edit id="{{ record_id }}" (close)="close()"></warranty-edit>
+</div>

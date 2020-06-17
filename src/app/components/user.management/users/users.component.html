@@ -1,0 +1,48 @@
+<div [ngClass]="{hidden: mode != 'list'}">
+<div class="page-header">
+    <h1>
+        <i class="fa fa-group page-header-icon"></i>Users
+    </h1>
+</div>
+<section class="container-fluid with-maxwidth chapter">
+    <article class="article">
+        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+            <div class="col-xs-12">
+                <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="addUser()" style="margin:10px">
+                    Add a new user
+                </button>
+                <table datatable [dtOptions]="dtOptions" class="row-border dataTable">
+                    <thead>
+                        <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>ID</th>
+                        <th>Can Delete</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let record of records">
+                            <td>{{ record.first_name }}</td>
+                            <td>{{ record.last_name }}</td>
+                            <td>{{ record.email }}</td>
+                            <td>{{ fromUtc(record.created_at) | date }}</td>
+                            <td>{{ fromUtc(record.updated_at) | date }}</td>
+                            <td>{{ record.id }}</td>
+                            <td>{{ record.can_delete }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </div>
+    </article>
+</section>
+</div>
+<div *ngIf="mode=='edit'">
+<users-edit id="{{ record_id }}" (close)="close()"></users-edit>
+</div>

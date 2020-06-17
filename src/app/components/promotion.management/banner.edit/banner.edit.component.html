@@ -1,0 +1,209 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Banner</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Banner</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="bannerForm" [formGroup]="bannerForm">                   
+                <div class="col-xs-12 col-md-12">
+                    <div class="row m-t-4 m-b-2">
+                        <div class="col-xs-12 col-md-12">
+                            <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled"
+                                color="primary">Enabled</mat-slide-toggle>
+                        </div>                 
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" [(ngModel)]="record.name"
+                                        placeholder="">
+                                    <mat-error *ngIf="bannerForm.get('name').hasError('server_validation')">
+                                        {{ bannerForm.get('name').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                              <p>
+                                <mat-form-field class="full-width">
+                                    <mat-label>Type</mat-label>
+                                    <mat-select required placeholder="Type" formControlName="type"
+                                        [(ngModel)]="record.type">
+                                        <mat-option *ngFor="let type of types" [value]="type">
+                                            {{ type }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="bannerForm.get('type').hasError('server_validation')">
+                                        {{ bannerForm.get('type').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                               <mat-form-field appearance="standard">
+                                  <mat-label>Start Date</mat-label>
+                                  <input matInput [matDatepicker]="myDatepicker1" formControlName="start_date" [(ngModel)]="record.start_date" readonly>
+                                  <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #myDatepicker1></mat-datepicker>                                                                                        
+                                  <mat-error
+                                        *ngIf="bannerForm.get('start_date').hasError('server_validation')">
+                                        {{ bannerForm.get('start_date').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                                <button (click)="reset('start_date')" mat-raised-button color="basic" [ngStyle]="{'visibility': record.start_date ? 'visible' : 'hidden' }" style="float: right;"><i class="px-nav-icon fa fa-close" style="position: relative; top: -2px;"></i> Clear</button>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                           <p>
+                                <mat-form-field appearance="standard">
+                                  <mat-label>End Date</mat-label>
+                                  <input matInput [matDatepicker]="myDatepicker2" formControlName="end_date" [(ngModel)]="record.end_date" readonly>
+                                  <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+                                  <mat-datepicker #myDatepicker2></mat-datepicker>
+                                  <mat-error
+                                        *ngIf="bannerForm.get('end_date').hasError('server_validation')">
+                                        {{ bannerForm.get('end_date').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                                <button (click)="reset('end_date')" mat-raised-button color="basic" [ngStyle]="{'visibility': record.end_date ? 'visible' : 'hidden' }" style="float: right;"><i class="px-nav-icon fa fa-close" style="position: relative; top: -2px;"></i> Clear</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Link</mat-label>
+                                    <input matInput formControlName="link" [(ngModel)]="record.link"
+                                        placeholder="">
+                                    <mat-error
+                                        *ngIf="bannerForm.get('link').hasError('server_validation')">
+                                        {{ bannerForm.get('link').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                                    <mat-label>Banner Visible Places</mat-label>
+                                    <br><br>
+                                    <mat-checkbox formControlName="is_on_page" [(ngModel)]="record.is_on_page">Page</mat-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <mat-checkbox formControlName="is_on_product" [(ngModel)]="record.is_on_product">Product</mat-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <mat-checkbox formControlName="is_on_category" [(ngModel)]="record.is_on_category">Category</mat-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <mat-checkbox formControlName="is_on_pool" [(ngModel)]="record.is_on_pool">Pool</mat-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;                                                                            
+                                    <mat-checkbox formControlName="is_on_promotion" [(ngModel)]="record.is_on_promotion">Promotion</mat-checkbox>                                                                                                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Icon Location</mat-label>
+                                    <input matInput formControlName="icon" [(ngModel)]="record.icon"
+                                        placeholder="">
+                                    <mat-error
+                                        *ngIf="bannerForm.get('icon').hasError('server_validation')">
+                                        {{ bannerForm.get('icon').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                                 <a (click)="loadFileManager($event)" class="img-preview">
+                                    <img *ngIf="record.icon" [src]="record.icon"
+                                        data-urlfield="icon"/>
+                                    <!-- <span *ngIf="!record.meta_image" data&#45;urlfield="meta_image">Choose an Image -->
+                                    <!-- </span> -->
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Background Image</mat-label>
+                                    <input id="meta_image" matInput formControlName="image"
+                                        [(ngModel)]="record.image">
+                                    <mat-error
+                                        *ngIf="bannerForm.get('image').hasError('server_validation')">
+                                        {{ bannerForm.get('image').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                                <a (click)="loadFileManager($event)" class="img-preview">
+                                    <img *ngIf="record.image" [src]="record.image"
+                                        data-urlfield="image"/>
+                                    <!-- <span *ngIf="!record.meta_image" data&#45;urlfield="meta_image">Choose an Image -->
+                                    <!-- </span> -->
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+                            <mat-form-field appearance="standard">
+                                    <mat-label>Title</mat-label>
+                                    <input matInput formControlName="title" [(ngModel)]="record.title"
+                                        placeholder="">
+                                    <mat-error *ngIf="bannerForm.get('title').hasError('server_validation')">
+                                        {{ bannerForm.get('title').getError('server_validation') }}</mat-error>
+                            </mat-form-field>
+                        </div>                      
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 mat-form-field-can-float mat-form-field-should-float">
+                            <div class="mat-form-field-infix">
+                                    <textarea formControlName="desc" rows="3" cols="30" [(ngModel)]="record.desc"
+                                        placeholder="" class="textarea" style="height:180px;"></textarea>
+                                    <span class="mat-form-field-label-wrapper"><label
+                                            class="mat-form-field-label">Description</label></span>
+                                    <mat-error *ngIf="bannerForm.get('desc').hasError('server_validation')">
+                                        {{ bannerForm.get('desc').getError('server_validation') }}</mat-error>
+                            </div>
+                        </div>                      
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field class="full-width">
+                                    <mat-label>Zone</mat-label>
+                                    <mat-select placeholder="Zone" formControlName="zone" [(ngModel)]="record.zone">
+                                        <mat-option *ngFor="let item of zones" [value]="item.id">
+                                            {{ item.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="bannerForm.get('zone').hasError('server_validation')">{{ bannerForm.get('zone').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                                <span class="text-muted font-italic" style="display:block;">Hint: If applicable to all zones, leave empty</span>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field class="full-width">
+                                    <mat-label>Order</mat-label>
+                                    <mat-select required placeholder="Order" formControlName="order"
+                                        [(ngModel)]="record.order">
+                                        <mat-option *ngFor="let num of order_ranges" [value]="num">
+                                            {{ num }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="bannerForm.get('order').hasError('server_validation')">
+                                        {{ bannerForm.get('order').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>                  
+                </div>       
+            </form>
+
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()"
+                style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+        </div>
+    </article>
+</section>

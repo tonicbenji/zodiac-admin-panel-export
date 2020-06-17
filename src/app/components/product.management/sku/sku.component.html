@@ -1,0 +1,31 @@
+<div class="col-xs-12">
+    <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="openDialog(0)"
+        style="margin:10px">
+        Add a new Model
+    </button>
+    <table datatable [dtOptions]="dtOptions" class="row-border dataTable" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sku</th>
+                <th>Primary</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>ID</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of records">
+                <td>{{ record.name }}</td>
+                <td>{{ record.sku }}</td>
+                <td>{{ record.primary }}</td>
+                <td>{{ fromUtc(record.created_at) | date }}</td>
+                <td>{{ fromUtc(record.updated_at) | date }}</td>
+                <td>{{ record.id }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+</div>

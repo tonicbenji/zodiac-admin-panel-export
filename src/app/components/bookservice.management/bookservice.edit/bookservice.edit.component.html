@@ -1,0 +1,246 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Show Service My Pool Record</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Service My Pool Record</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="dealerForm" [formGroup]="dealerForm" >
+                <div class="col-xs-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>First Name</mat-label>
+                                    <input matInput formControlName="first_name" [(ngModel)]="record.first_name" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Surname</mat-label>
+                                    <input matInput formControlName="surname" [(ngModel)]="record.surname" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" [(ngModel)]="record.email" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Preferred Contact Method</mat-label>
+                                    <input matInput formControlName="preferred_contact_method" [(ngModel)]="record.preferred_contact_method" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput formControlName="country" [(ngModel)]="record.country" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>State</mat-label>
+                                    <input matInput formControlName="state" [(ngModel)]="record.state" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Suburb</mat-label>
+                                    <input matInput formControlName="suburb" [(ngModel)]="record.suburb" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Address Line 1</mat-label>
+                                    <input matInput formControlName="street_1" [(ngModel)]="record.street_1" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Address Line 2</mat-label>
+                                    <input matInput formControlName="street_2" [(ngModel)]="record.street_2" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Postcode</mat-label>
+                                    <input matInput formControlName="postcode" [(ngModel)]="record.postcode" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput formControlName="phone" [(ngModel)]="record.phone" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Mobile</mat-label>
+                                    <input matInput formControlName="mobile" [(ngModel)]="record.mobile" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Property Type</mat-label>
+                                    <input matInput formControlName="property_type" [(ngModel)]="record.property_type" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                    </div>
+  
+    
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Products</h1>
+                    </div>
+                    <div class="row" style="padding-bottom: 25px;">
+                       <div class="col-xs-12 col-md-12">
+                        <div class="col-xs-4 col-md-2">                             
+                             <b>Product Name</b>                             
+                        </div>
+                        <div class="col-xs-4 col-md-2">                             
+                             <b>Serial Number</b>
+                        </div>
+                        <div class="col-xs-4 col-md-2">
+                             <b>Install Date</b>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                             <b>Fault Details</b>
+                        </div>
+                       </div>
+
+                       <div class="col-xs-12 col-md-12" *ngFor="let item of products" style="padding:10px; border-bottom: 1px solid #444;">
+                        <div class="col-xs-4 col-md-2">                             
+                             {{item.product_name}}
+                        </div>
+                        <div class="col-xs-4 col-md-2">                             
+                             {{item.serial_number}}
+                        </div>
+                        <div class="col-xs-4 col-md-2">
+                             {{item.install_date}}
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                             {{item.fault_details}}
+                        </div>
+                       </div>
+                    </div>                  
+                    
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Your Builder / Equipment Supplier</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Business Name</mat-label>
+                                    <input matInput formControlName="business_name" [(ngModel)]="record.business_name" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Contact Name</mat-label>
+                                    <input matInput formControlName="contact_name" [(ngModel)]="record.contact_name" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Contact number</mat-label>
+                                    <input matInput formControlName="contact_number" [(ngModel)]="record.contact_number" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                     
+                    </div>
+
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Additional Information</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <p>                                                               
+                            <textarea formControlName="additional_information" rows="5" cols="30"
+                                            [(ngModel)]="record.additional_information" style="height: 120px;"></textarea>                               
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Warranty on repairs</mat-label>
+                                    <input matInput formControlName="warranty_on_repairs" [(ngModel)]="record.warranty_on_repairs" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                     <div class="page-header">
+                        <h1 mat-dialog-title >Sales Force Connection</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce Started Time</mat-label>
+                                    <input matInput formControlName="salesforce_started" [(ngModel)]="record.salesforce_started" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce Completed Time</mat-label>
+                                    <input matInput formControlName="salesforce_completed" [(ngModel)]="record.salesforce_completed" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                          <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sales Force Error Status</mat-label>
+                                    <input matInput formControlName="salesforce_status" [(ngModel)]="record.salesforce_status" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce number of attempt to send data</mat-label>
+                                    <input matInput formControlName="salesforce_try" [(ngModel)]="record.salesforce_try" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>                                                                      
+                </div>
+            </form>
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+        </div>
+    </article>
+</section>

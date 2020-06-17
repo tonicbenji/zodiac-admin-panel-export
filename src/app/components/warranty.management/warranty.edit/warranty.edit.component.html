@@ -1,0 +1,311 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Show Warranty Registration</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Dealer</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="dealerForm" [formGroup]="dealerForm" >
+                <div class="col-xs-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Full Name</mat-label>
+                                    <input matInput formControlName="full_name" [(ngModel)]="record.full_name" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" [(ngModel)]="record.email" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Date of Birth</mat-label>
+                                    <input matInput formControlName="date_of_birth" [(ngModel)]="record.date_of_birth" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput formControlName="country" [(ngModel)]="record.country" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>State</mat-label>
+                                    <input matInput formControlName="state" [(ngModel)]="record.state" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Suburb</mat-label>
+                                    <input matInput formControlName="suburb" [(ngModel)]="record.suburb" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Address Line 1</mat-label>
+                                    <input matInput formControlName="address_line_1" [(ngModel)]="record.address_line_1" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Address Line 2</mat-label>
+                                    <input matInput formControlName="address_line_2" [(ngModel)]="record.address_line_2" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Postcode</mat-label>
+                                    <input matInput formControlName="postcode" [(ngModel)]="record.postcode" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Telephone</mat-label>
+                                    <input matInput formControlName="telephone" [(ngModel)]="record.telephone" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Mobile</mat-label>
+                                    <input matInput formControlName="mobile" [(ngModel)]="record.mobile" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Agreed to receive opt-in email</mat-label>
+                                    <input matInput formControlName="opt_in_for_marketing" [(ngModel)]="record.opt_in_for_marketing" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                    </div>
+  
+    
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Your Purchase</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row">
+                            <div class="col-xs-12 col-md-6">                            
+                                <div *ngFor="let item of products_files"> {{item.product_name}}</div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">                            
+                                <div *ngFor="let item of products_files"> <a href="/downloadfile/?file={{item.uploaded_path_filename}}" >{{item.uploaded_file_name}} </a></div>
+                            </div>
+                            </div>
+                            
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Date of Purchase</mat-label>
+                                    <input matInput formControlName="date_of_purchase" [(ngModel)]="record.date_of_purchase" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>How did you first learn about this product?</mat-label>
+                                    <input matInput formControlName="how_did_you_first_learn" [(ngModel)]="record.how_did_you_first_learn" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        </div>                  
+                    
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Dealer Details</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput formControlName="dealer_country" [(ngModel)]="record.dealer_country" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>State</mat-label>
+                                    <input matInput formControlName="dealer_state" [(ngModel)]="record.dealer_state" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Suburb</mat-label>
+                                    <input matInput formControlName="dealer_suburb" [(ngModel)]="record.dealer_suburb" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="dealer_name" [(ngModel)]="record.dealer_name" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        </div>
+
+                    <div class="page-header">
+                        <h1 mat-dialog-title >About Your Pool</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Who is mainly responsible for cleaning your pool?</mat-label>
+                                    <input matInput formControlName="who_is_mainly_responsible" [(ngModel)]="record.who_is_mainly_responsible" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>How often is your pool used in summer?</mat-label>
+                                    <input matInput formControlName="how_often_is_your_pool_used_in_summer" [(ngModel)]="record.how_often_is_your_pool_used_in_summer" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>How often is your pool used in winter?</mat-label>
+                                    <input matInput formControlName="how_often_is_your_pool_used_in_winter" [(ngModel)]="record.how_often_is_your_pool_used_in_winter" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Pool construction?</mat-label>
+                                    <input matInput formControlName="pool_construction" [(ngModel)]="record.pool_construction" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Pool size/shape</mat-label>
+                                    <input matInput formControlName="pool_size_shape" [(ngModel)]="record.pool_size_shape" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Pool age</mat-label>
+                                    <input matInput formControlName="pool_age" [(ngModel)]="record.pool_age" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Do you have an outside spa?</mat-label>
+                                    <input matInput formControlName="do_you_have_an_outside_spa" [(ngModel)]="record.do_you_have_an_outside_spa" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>What equipment do you have for your pool?</mat-label>
+                                    <input matInput formControlName="what_equipment_do_you_have" [(ngModel)]="record.what_equipment_do_you_have" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>What do you MOST like about owning a pool? </mat-label>
+                                    <input matInput formControlName="what_do_you_most_like_about_owning_a_pool" [(ngModel)]="record.what_do_you_most_like_about_owning_a_pool" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>What do you LEAST like about owning a pool?</mat-label>
+                                    <input matInput formControlName="what_do_you_least_like_about_owning_a_pool" [(ngModel)]="record.what_do_you_least_like_about_owning_a_pool" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+
+                        </div>
+                    <div class="page-header">
+                        <h1 mat-dialog-title >Sales Force Connection</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce Started Time</mat-label>
+                                    <input matInput formControlName="salesforce_started" [(ngModel)]="record.salesforce_started" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce Completed Time</mat-label>
+                                    <input matInput formControlName="salesforce_completed" [(ngModel)]="record.salesforce_completed" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                          <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sales Force Error Status</mat-label>
+                                    <input matInput formControlName="salesforce_status" [(ngModel)]="record.salesforce_status" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>                        
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>SalesForce number of attempt to send data</mat-label>
+                                    <input matInput formControlName="salesforce_try" [(ngModel)]="record.salesforce_try" [readonly]="true">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>                                                   
+                </div>
+            </form>
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+        </div>
+    </article>
+</section>

@@ -1,0 +1,53 @@
+<div [ngClass]="{hidden: mode != 'list'}">
+<div class="page-header">
+    <h1>
+        <i class="fa fa-dashboard page-header-icon"></i>Banner Management
+    </h1>
+</div>
+<section class="container-fluid with-maxwidth chapter">
+    <article class="article">
+        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+            <div class="col-xs-12">
+                <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="addRecord()" style="margin:10px">
+                    Add a new banner
+                </button>
+                <table datatable [dtOptions]="dtOptions" class="row-border dataTable" style="width:100%">
+                        <thead>
+                            <tr>
+                            <th>Name</th>
+                            <th>Tile</th>
+                            <th>Type</th>
+                            <th>Zone</th>
+                            <th>Enabled</th>
+                            <th>Order</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>ID</th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let record of records">
+                                <td>{{ record.name }}</td>
+                                <td>{{ record.title }}</td>
+                                <td>{{ record.type }}</td>
+                                <td>{{ record.zone }}</td>
+                                <td>{{ record.enabled }}</td>
+                                <td>{{ record.order }}</td>
+                                <td>{{ record.featured }}</td>
+                                <td>{{ fromUtc(record.start_date) | date }}</td>
+                                <td>{{ fromUtc(record.end_date) | date }}</td>
+                                <td>{{ record.id }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <br />
+            </div>
+        </div>
+    </article>
+</section>
+</div>
+<div *ngIf="mode=='edit'">
+<banner-edit id="{{ record_id }}" (close)="close()"></banner-edit>
+</div>

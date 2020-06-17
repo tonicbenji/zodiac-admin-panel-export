@@ -1,0 +1,438 @@
+<div class="page-header">
+    <h1 mat-dialog-title *ngIf="id > 0"><i class="fa fa-cubes page-header-icon"></i>Edit Dealer</h1>
+    <h1 mat-dialog-title *ngIf="id == 'new'"><i class="fa fa-cubes page-header-icon"></i>Add Dealer</h1>
+</div>
+<section class="container-fluid with-maxwidth chapter" *ngIf="record">
+    <article class="article">
+        <div class="box box-default">
+            <form *ngIf="dealerForm" [formGroup]="dealerForm">
+                <div class="col-xs-12 col-md-12">
+                    <div class="row m-t-4 m-b-2">
+                        <div class="col-xs-12 col-md-4">
+                            <mat-slide-toggle formControlName="enabled" [(ngModel)]="record.enabled"
+                                color="primary">Enabled</mat-slide-toggle>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <mat-slide-toggle formControlName="factory_trained" [(ngModel)]="record.factory_trained"
+                                color="primary">Factory Trained</mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" [(ngModel)]="record.name" placeholder="Name">
+                                    <mat-error *ngIf="dealerForm.get('name').hasError('server_validation')">
+                                        {{ dealerForm.get('name').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Account Number</mat-label>
+                                    <input matInput formControlName="account_number" [(ngModel)]="record.account_number" placeholder="Account Number">
+                                    <mat-error *ngIf="dealerForm.get('account_number').hasError('server_validation')">
+                                        {{ dealerForm.get('account_number').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput formControlName="phone" [(ngModel)]="record.phone"
+                                        placeholder="Phone">
+                                    <mat-error
+                                        *ngIf="dealerForm.get('phone').hasError('server_validation')">
+                                        {{ dealerForm.get('phone').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Fax</mat-label>
+                                    <input matInput formControlName="fax" [(ngModel)]="record.fax"
+                                        placeholder="Fax">
+                                    <mat-error
+                                        *ngIf="dealerForm.get('fax').hasError('server_validation')">
+                                        {{ dealerForm.get('fax').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" [(ngModel)]="record.email"
+                                        placeholder="Email">
+                                    <mat-error
+                                        *ngIf="dealerForm.get('email').hasError('server_validation')">
+                                        {{ dealerForm.get('email').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Website</mat-label>
+                                    <input matInput formControlName="website" [(ngModel)]="record.website"
+                                        placeholder="Website">
+                                    <mat-error
+                                        *ngIf="dealerForm.get('website').hasError('server_validation')">
+                                        {{ dealerForm.get('website').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- changing ghe position of the below control will enforce to change the styles associated, which is
+                        defined in the global styles.less file  -->
+                        <div class="col-xs-12 col-md-6 typeahead">
+                            <p>
+                                <label for="">Address</label>
+                                <ngxgeo-autocomplete
+                                    [userSettings]="locationSettings" 
+                                    (componentCallback)="autoCompleteCallback($event)"></ngxgeo-autocomplete>
+                              <mat-error
+                                        *ngIf="dealerForm.get('address').hasError('server_validation')">
+                                        {{ dealerForm.get('address').getError('server_validation') }}
+                              </mat-error>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Sub-Address</mat-label>
+                                    <input matInput formControlName="sub_address" [(ngModel)]="record.sub_address" placeholder="Sub Address">
+                                    <mat-error *ngIf="dealerForm.get('sub_address').hasError('server_validation')">
+                                        {{ dealerForm.get('sub_address').getError('server_validation') }}</mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field class="full-width">
+                                    <mat-label>Tier</mat-label>
+                                    <mat-select required placeholder="Tier" formControlName="tier_id"
+                                        [(ngModel)]="record.tier_id">
+                                        <mat-option *ngFor="let tier of dealer_tiers" [value]="tier.id">
+                                            {{ tier.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="dealerForm.get('tier_id').hasError('server_validation')">
+                                        {{ dealerForm.get('tier_id').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Logo Image Url</mat-label>
+                                    <input id="logo_image_url" matInput formControlName="logo_image_url"
+                                        [(ngModel)]="record.logo_image_url">
+                                    <mat-error
+                                        *ngIf="dealerForm.get('logo_image_url').hasError('server_validation')">
+                                        {{ dealerForm.get('logo_image_url').getError('server_validation') }}
+                                    </mat-error>
+                                </mat-form-field>
+                                <a (click)="loadFileManager($event)" class="img-preview">
+                                    <img *ngIf="record.logo_image_url" [src]="record.logo_image_url"
+                                        data-urlfield="logo_image_url"/>
+                                    <!-- <span *ngIf="!record.logo_image_url" data&#45;urlfield="logo_image_url">Choose -->
+                                    <!--     an Image -->
+                                    <!-- </span> -->
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 25px;">
+                        <div class="col-xs-12 col-md-6">
+                                <mat-label>                                
+                                <b>View Count</b> - {{record.view_count}}, <b>Click Count</b> - {{record.click_count}}
+                                </mat-label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <mat-label>Dealer Types</mat-label>
+                            <autocomplete [lookup_endpoint]="dealer_types_lookup_endpoint" 
+                                [selected_ids]="record.dealer_type_ids"></autocomplete>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <mat-label>Dealer Services</mat-label>
+                            <autocomplete [lookup_endpoint]="dealer_services_lookup_endpoint" 
+                                [selected_ids]="record.dealer_service_ids"></autocomplete>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <mat-label>Dealer Maintenance Services</mat-label>
+                            <autocomplete [lookup_endpoint]="dealer_maintenances_lookup_endpoint" 
+                                [selected_ids]="record.dealer_maintenance_ids"></autocomplete>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-md-12">
+                        <h2>Opening Hours</h2>  
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <mat-slide-toggle formControlName="show_opening_hours" [(ngModel)]="record.show_opening_hours"
+                            color="primary">Show Opening Hours</mat-slide-toggle>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <div>&nbsp;</div>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <!-- Monday -->
+                        <mat-card class="col-xs-12 col-md-2">
+                            <mat-card-header>
+                                <mat-card-title>Monday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="mon_close" [(ngModel)]="record.mon_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.mon_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="mon_open_time" [(ngModel)]="record.mon_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('mon_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('mon_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="mon_close_time" [(ngModel)]="record.mon_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('mon_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('mon_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        
+
+                        <!-- Tuesday -->
+                        <mat-card class="col-xs-12 col-md-2 col-md-offset-1">
+                            <mat-card-header>
+                                <mat-card-title>Tuesday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="tue_close" [(ngModel)]="record.tue_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.tue_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="tue_open_time" [(ngModel)]="record.tue_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('tue_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('tue_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="tue_close_time" [(ngModel)]="record.tue_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('tue_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('tue_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Wednesday -->
+                        <mat-card class="col-xs-12 col-md-2 col-md-offset-1">
+                            <mat-card-header>
+                                <mat-card-title>Wednesday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="wed_close" [(ngModel)]="record.wed_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.wed_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="wed_open_time" [(ngModel)]="record.wed_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('wed_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('wed_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="wed_close_time" [(ngModel)]="record.wed_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('wed_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('wed_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Thursday -->
+                        <mat-card class="col-xs-12 col-md-2 col-md-offset-1">
+                            <mat-card-header>
+                                <mat-card-title>Thursday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="thu_close" [(ngModel)]="record.thu_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.thu_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="thu_open_time" [(ngModel)]="record.thu_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('thu_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('thu_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="thu_close_time" [(ngModel)]="record.thu_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('thu_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('thu_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <div>&nbsp;</div>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <!-- Friday -->
+                        <mat-card class="col-xs-12 col-md-2">
+                            <mat-card-header>
+                                <mat-card-title>Friday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="fri_close" [(ngModel)]="record.fri_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.fri_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="fri_open_time" [(ngModel)]="record.fri_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('fri_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('fri_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="fri_close_time" [(ngModel)]="record.fri_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('fri_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('fri_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Saturday -->
+                        <mat-card class="col-xs-12 col-md-2  col-md-offset-1">
+                            <mat-card-header>
+                                <mat-card-title>Saturday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="sat_close" [(ngModel)]="record.sat_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.sat_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="sat_open_time" [(ngModel)]="record.sat_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('sat_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('sat_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="sat_close_time" [(ngModel)]="record.sat_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('sat_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('sat_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Sunday -->
+                        <mat-card class="col-xs-12 col-md-2  col-md-offset-1">
+                            <mat-card-header>
+                                <mat-card-title>Sunday</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-slide-toggle formControlName="sun_close" [(ngModel)]="record.sun_close"
+                                        color="primary">Closed</mat-slide-toggle>
+                                <div [ngClass]="{'hidden' : record.sun_close == 1}">
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Open</mat-label>
+                                        <input matInput formControlName="sun_open_time" [(ngModel)]="record.sun_open_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('sun_open_time').hasError('server_validation')">
+                                            {{ dealerForm.get('sun_open_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Close</mat-label>
+                                        <input matInput formControlName="sun_close_time" [(ngModel)]="record.sun_close_time"
+                                            placeholder="Open">
+                                        <mat-error
+                                            *ngIf="dealerForm.get('sun_close_time').hasError('server_validation')">
+                                            {{ dealerForm.get('sun_close_time').getError('server_validation') }}
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <span class="text-muted font-italic" style="display:block;">Hint: e.g. 0900 (9AM), 1700 (5PM), 1430 (2.30PM)</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </form>
+            <button type="button" mat-raised-button color="warn" class="btn-w-md pull-right" (click)="cancel()" style="margin:10px">
+                Cancel
+            </button>
+            <button type="button" mat-raised-button color="primary" class="btn-w-md pull-right" (click)="save()" [disabled]="alertService.networkActivity" style="margin:10px">
+                Save
+            </button>
+        </div>
+    </article>
+</section>
