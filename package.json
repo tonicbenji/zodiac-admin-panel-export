@@ -30,7 +30,7 @@
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
     "jquery": "^3.3.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-geoautocomplete": "^0.1.1",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.4.0",
