@@ -25,7 +25,7 @@
     "@tinymce/tinymce-angular": "~2.5.0",
     "angular-4-data-table-bootstrap-4": "^0.2.0",
     "angular-datatables": "^7.0.0",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "core-js": "^2.6.4",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
